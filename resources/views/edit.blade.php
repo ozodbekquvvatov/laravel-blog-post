@@ -13,6 +13,7 @@
 
                     <div class="mb-3">
                         <label for="editName" class="form-label">Name</label>
+                  
                         <input type="text" class="form-control" name="name" id="editName"
                             value="{{ $post->name }}">
                     </div>
