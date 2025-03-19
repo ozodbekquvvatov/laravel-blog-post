@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreUpdateRequest;
+use App\Http\Requests\StoreUpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -39,13 +38,10 @@ class PostController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
     
-            // Fayl nomini unique qilish
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             
-            // Faylni public/images papkasiga saqlash
             $filePath = $file->storeAs('images', $fileName, 'public');
     
-            // Fayl yo‘lini bazaga saqlash
             $post->image = $filePath;
         }
     
@@ -59,7 +55,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id); // ID bo‘yicha postni topish
+        $post = Post::findOrFail($id); 
         return view('show', compact('post'));
     }
     
@@ -75,15 +71,14 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreUpdateRequest $request, Post $post)
+    public function update(StoreUpdatePostRequest $request, Post $post)
 {
-    // Kiruvchi ma'lumotlarni tekshirish
 
     $post->name = $request->name;
     $post->body = $request->body;
 
+
     if ($request->hasFile('image')) {
-        // Eski rasmni o‘chirish
         if ($post->image) {
             $imagePath = storage_path('app/public/' . $post->image);
             if (file_exists($imagePath)) {
@@ -91,16 +86,13 @@ class PostController extends Controller
             }
         }
 
-        // Yangi faylni yuklash
         $file = $request->file('image');
         $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
         $filePath = $file->storeAs('images', $fileName, 'public');
 
-        // Yangi rasmni bazaga yozish
         $post->image = $filePath;
     }
 
-    // POSTNI **HAR QANDAY HOLATDA** SAQLASH
     $post->save();
 
     return redirect()->route('posts.index')->with('success', 'Post muvaffaqiyatli yangilandi!');
@@ -114,7 +106,6 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-    // Agar postga bog‘langan rasm bo‘lsa, uni o‘chirish
     if ($post->image) {
         $imagePath = storage_path('app/public/' . $post->image);
         if (file_exists($imagePath)) {
