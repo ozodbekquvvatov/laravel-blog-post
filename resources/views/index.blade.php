@@ -18,6 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
                         @if (isset($posts) && count($posts) > 0)
                             @foreach ($posts as $post)
                                 <tr>
