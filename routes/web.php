@@ -8,3 +8,5 @@ Route::get('/', function () {
 });
 
 Route::resource('posts',PostController::class)->names('posts');
+
+
