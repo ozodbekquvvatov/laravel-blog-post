@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\StoreUpdatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -71,7 +71,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreUpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
 {
 
     $post->name = $request->name;
